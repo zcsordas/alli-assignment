@@ -1,0 +1,76 @@
+{
+  "create_vpc_minimal": {
+    "cidr_block": "10.0.0.0/16",
+    "name": "MinimalVPC",
+    "subnets": [
+      {
+        "cidr": "10.0.1.0/24",
+        "name": "subnet-1"
+      }
+    ]
+  },
+  "create_vpc_full": {
+    "cidr_block": "172.16.0.0/16",
+    "name": "ProductionVPC",
+    "enable_dns_support": true,
+    "enable_dns_hostnames": true,
+    "subnets": [
+      {
+        "cidr": "172.16.1.0/24",
+        "availability_zone": "us-east-1a",
+        "name": "public-subnet-1a"
+      },
+      {
+        "cidr": "172.16.2.0/24",
+        "availability_zone": "us-east-1b",
+        "name": "public-subnet-1b"
+      },
+      {
+        "cidr": "172.16.11.0/24",
+        "availability_zone": "us-east-1a",
+        "name": "private-subnet-1a"
+      },
+      {
+        "cidr": "172.16.12.0/24",
+        "availability_zone": "us-east-1b",
+        "name": "private-subnet-1b"
+      }
+    ]
+  },
+  "create_vpc_multi_az": {
+    "cidr_block": "192.168.0.0/16",
+    "name": "MultiAZVPC",
+    "subnets": [
+      {
+        "cidr": "192.168.1.0/24",
+        "availability_zone": "us-east-1a",
+        "name": "web-tier-1a"
+      },
+      {
+        "cidr": "192.168.2.0/24",
+        "availability_zone": "us-east-1b",
+        "name": "web-tier-1b"
+      },
+      {
+        "cidr": "192.168.3.0/24",
+        "availability_zone": "us-east-1c",
+        "name": "web-tier-1c"
+      },
+      {
+        "cidr": "192.168.11.0/24",
+        "availability_zone": "us-east-1a",
+        "name": "app-tier-1a"
+      },
+      {
+        "cidr": "192.168.12.0/24",
+        "availability_zone": "us-east-1b",
+        "name": "app-tier-1b"
+      },
+      {
+        "cidr": "192.168.13.0/24",
+        "availability_zone": "us-east-1c",
+        "name": "app-tier-1c"
+      }
+    ]
+  }
+}

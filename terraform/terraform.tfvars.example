@@ -1,0 +1,8 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and customize
+
+# aws_region = "us-west-2"
+# project_name = "my-vpc-api"
+# cognito_domain_prefix = "my-unique-prefix"
+# lambda_timeout = 600
+# lambda_memory_size = 256
