@@ -41,8 +41,8 @@ resource "aws_iam_role_policy" "lambda_dynamodb" {
         "dynamodb:Query"
       ]
       Resource = [
-        aws_dynamodb_table.vpc_metadata.arn,
-        "${aws_dynamodb_table.vpc_metadata.arn}/index/*"
+        var.dynamodb_table_arn,
+        "${var.dynamodb_table_arn}/index/*"
       ]
     }]
   })

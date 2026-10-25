@@ -1,6 +1,6 @@
 # DynamoDB Table for VPC Metadata
 resource "aws_dynamodb_table" "vpc_metadata" {
-  name           = "VpcMetadata"
+  name           = var.table_name
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "vpc_id"
   stream_enabled = true
@@ -23,6 +23,6 @@ resource "aws_dynamodb_table" "vpc_metadata" {
   }
 
   tags = {
-    Name = "VPC-Metadata-Table"
+    Name = "${var.table_name}-table"
   }
 }
