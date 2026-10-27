@@ -8,6 +8,10 @@ resource "aws_lambda_function" "this" {
   timeout          = var.timeout
   memory_size      = var.memory_size
 
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = var.environment_variables
   }

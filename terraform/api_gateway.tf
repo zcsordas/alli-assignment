@@ -1,3 +1,35 @@
+# CloudWatch Log Group for API Gateway Access Logs
+resource "aws_cloudwatch_log_group" "api_gateway_access_logs" {
+  name              = "/aws/api-gateway/${var.project_name}-access-logs"
+  retention_in_days = 7
+}
+
+# Enable API Gateway Access Logging for the account
+resource "aws_api_gateway_account" "this" {
+  cloudwatch_logs_role_arn = aws_iam_role.api_gateway_cloudwatch_logs.arn
+}
+
+# IAM Role for API Gateway to write to CloudWatch Logs
+resource "aws_iam_role" "api_gateway_cloudwatch_logs" {
+  name = "${var.project_name}-api-gateway-cloudwatch-logs-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "apigateway.amazonaws.com"
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "api_gateway_cloudwatch_logs_attachment" {
+  role       = aws_iam_role.api_gateway_cloudwatch_logs.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+}
+
 # /vpc resource
 resource "aws_api_gateway_resource" "vpc" {
   rest_api_id = module.api_gateway.rest_api_id

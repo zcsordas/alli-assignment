@@ -1,14 +1,23 @@
+# KMS Key for DynamoDB encryption
+resource "aws_kms_key" "dynamodb_key" {
+  description             = "KMS key for DynamoDB encryption"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+}
+
 # IAM Module
 module "iam" {
   source             = "./modules/iam"
   project_name       = var.project_name
   dynamodb_table_arn = module.dynamodb.table_arn
+  kms_key_arn        = aws_kms_key.dynamodb_key.arn
 }
 
 # DynamoDB Module
 module "dynamodb" {
-  source     = "./modules/dynamodb"
-  table_name = "${var.project_name}-vpc-metadata"
+  source      = "./modules/dynamodb"
+  table_name  = "${var.project_name}-vpc-metadata"
+  kms_key_arn = aws_kms_key.dynamodb_key.arn
 }
 
 # Archive files for Lambda functions
