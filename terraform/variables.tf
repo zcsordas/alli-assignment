@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region for all resources"
   type        = string
-  default     = "eu-central-1"  # Frankfurt - closest to Hungary
+  default     = "eu-central-1" # Frankfurt - closest to Hungary
 }
 
 variable "project_name" {
