@@ -6,7 +6,7 @@ resource "aws_cloudwatch_log_group" "api_gateway_access_logs" {
 
 # Enable API Gateway Access Logging for the account
 resource "aws_api_gateway_account" "this" {
-  cloudwatch_logs_role_arn = aws_iam_role.api_gateway_cloudwatch_logs.arn
+  cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch_logs.arn
 }
 
 # IAM Role for API Gateway to write to CloudWatch Logs
