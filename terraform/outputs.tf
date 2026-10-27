@@ -1,6 +1,11 @@
 output "api_endpoint" {
   description = "API endpoint"
-  value       = "http://localhost:4566/restapis/${module.api_gateway.rest_api_id}/prod/_user_request_"
+  value       = "http://localhost:4566/prod"
+}
+
+output "rest_api_id" {
+  description = "API Gateway Rest API ID"
+  value       = module.api_gateway.rest_api_id
 }
 
 output "dynamodb_table_name" {

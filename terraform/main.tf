@@ -105,6 +105,7 @@ module "lambda_delete_vpc" {
 module "api_gateway" {
   source         = "./modules/api_gateway"
   project_name   = var.project_name
+  aws_region     = var.aws_region
   lambda_functions = {
     create_vpc = { function_name = module.lambda_create_vpc.function_name }
     get_vpc    = { function_name = module.lambda_get_vpc.function_name }

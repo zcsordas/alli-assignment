@@ -33,7 +33,7 @@ resource "aws_api_gateway_integration" "create_vpc" {
   http_method             = aws_api_gateway_method.create_vpc.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.lambda_create_vpc.function_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${module.lambda_create_vpc.function_arn}/invocations"
 }
 
 # GET /vpc/{vpc_id} - Get VPC
@@ -50,7 +50,7 @@ resource "aws_api_gateway_integration" "get_vpc" {
   http_method             = aws_api_gateway_method.get_vpc.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.lambda_get_vpc.function_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${module.lambda_get_vpc.function_arn}/invocations"
 }
 
 # DELETE /vpc/{vpc_id} - Delete VPC
@@ -67,7 +67,7 @@ resource "aws_api_gateway_integration" "delete_vpc" {
   http_method             = aws_api_gateway_method.delete_vpc.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.lambda_delete_vpc.function_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${module.lambda_delete_vpc.function_arn}/invocations"
 }
 
 # GET /vpcs - List VPCs
@@ -84,7 +84,7 @@ resource "aws_api_gateway_integration" "list_vpcs" {
   http_method             = aws_api_gateway_method.list_vpcs.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.lambda_list_vpcs.function_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${module.lambda_list_vpcs.function_arn}/invocations"
 }
 
 # API Gateway Deployment
