@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region for all resources"
   type        = string
-  default     = "eu-central-1"  # Frankfurt - closest to Hungary
+  default     = "eu-central-1" # Frankfurt - closest to Hungary
 }
 
 variable "project_name" {
@@ -19,7 +19,7 @@ variable "cognito_domain_prefix" {
 variable "lambda_runtime" {
   description = "Lambda function runtime"
   type        = string
-  default     = "python3.11"
+  default     = "python3.9"
 }
 
 variable "lambda_timeout" {
@@ -32,4 +32,10 @@ variable "lambda_memory_size" {
   description = "Lambda function memory size in MB"
   type        = number
   default     = 512
+}
+
+variable "use_localstack" {
+  description = "Whether to use LocalStack endpoints"
+  type        = bool
+  default     = false
 }

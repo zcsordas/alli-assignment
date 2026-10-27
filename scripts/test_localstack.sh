@@ -4,20 +4,25 @@
 
 set -e
 
-# Get API endpoint from Terraform
-API_ENDPOINT=$(cd terraform && terraform output -raw api_endpoint_localstack 2>/dev/null)
+# Get API endpoint and Rest API ID from Terraform
+API_ENDPOINT=$(cd terraform && terraform output -raw api_endpoint 2>/dev/null)
+REST_API_ID=$(cd terraform && terraform output -raw rest_api_id 2>/dev/null)
+REGION="us-east-1"
 
-if [ -z "$API_ENDPOINT" ]; then
-    echo "❌ Could not get API endpoint. Make sure Terraform is deployed."
+if [ -z "$API_ENDPOINT" ] || [ -z "$REST_API_ID" ]; then
+    echo "❌ Could not get API endpoint or Rest API ID. Make sure Terraform is deployed."
     exit 1
 fi
 
+HOST_HEADER="${REST_API_ID}.execute-api.${REGION}.amazonaws.com"
+
 echo "✅ Using API endpoint: $API_ENDPOINT"
+echo "✅ Using Host header: $HOST_HEADER"
 echo ""
 
 # Test 1: List VPCs (should be empty initially)
 echo "📋 Test 1: Listing VPCs (should be empty)..."
-curl -s "$API_ENDPOINT/vpcs" | jq '.' || echo "Response: $(curl -s $API_ENDPOINT/vpcs)"
+curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpcs" | jq '.' || echo "Response: $(curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpcs")"
 
 echo ""
 echo "---"
@@ -27,6 +32,7 @@ echo ""
 echo "🏗️  Test 2: Creating a VPC..."
 VPC_RESPONSE=$(curl -s -X POST "$API_ENDPOINT/vpc" \
     -H "Content-Type: application/json" \
+    -H "Host: $HOST_HEADER" \
     -d '{
         "cidr_block": "10.0.0.0/16",
         "name": "LocalStackTestVPC",
@@ -65,7 +71,7 @@ echo ""
 
 # Test 3: Get VPC details
 echo "🔍 Test 3: Getting VPC details..."
-curl -s "$API_ENDPOINT/vpc/$VPC_ID" | jq '.' 2>/dev/null || curl -s "$API_ENDPOINT/vpc/$VPC_ID"
+curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpc/$VPC_ID" | jq '.' 2>/dev/null || curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpc/$VPC_ID"
 
 echo ""
 echo "---"
@@ -73,7 +79,7 @@ echo ""
 
 # Test 4: List VPCs again (should show the created VPC)
 echo "📋 Test 4: Listing VPCs (should show 1 VPC)..."
-curl -s "$API_ENDPOINT/vpcs" | jq '.' 2>/dev/null || curl -s "$API_ENDPOINT/vpcs"
+curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpcs" | jq '.' 2>/dev/null || curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpcs"
 
 echo ""
 echo "---"
@@ -81,7 +87,7 @@ echo ""
 
 # Test 5: Delete VPC
 echo "🗑️  Test 5: Deleting VPC..."
-curl -s -X DELETE "$API_ENDPOINT/vpc/$VPC_ID" | jq '.' 2>/dev/null || curl -s -X DELETE "$API_ENDPOINT/vpc/$VPC_ID"
+curl -s -X DELETE -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpc/$VPC_ID" | jq '.' 2>/dev/null || curl -s -X DELETE -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpc/$VPC_ID"
 
 echo ""
 echo "---"
@@ -89,7 +95,7 @@ echo ""
 
 # Test 6: Verify deletion
 echo "📋 Test 6: Listing VPCs (should be empty again)..."
-curl -s "$API_ENDPOINT/vpcs" | jq '.' 2>/dev/null || curl -s "$API_ENDPOINT/vpcs"
+curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpcs" | jq '.' 2>/dev/null || curl -s -H "Host: $HOST_HEADER" "$API_ENDPOINT/vpcs"
 
 echo ""
 echo ""

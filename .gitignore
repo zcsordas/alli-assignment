@@ -1,0 +1,15 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Local/Environment specific
+.continue/
+.scratch/
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
